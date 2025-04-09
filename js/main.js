@@ -107,25 +107,23 @@ function initGame() {
 // Screen management
 function showScreen(screenId) {
   debugLog(`Showing screen: ${screenId}`);
-
+  console.log(`Attempting to show screen: ${screenId}`);
+  
   // Hide all screens
-  document.querySelectorAll(".screen").forEach((screen) => {
-    screen.classList.remove("active");
+  document.querySelectorAll('.screen').forEach(screen => {
+    screen.style.display = 'none';
+    console.log(`Hidden screen: ${screen.id}`);
   });
-
+  
   // Show requested screen
   const screen = document.getElementById(screenId);
   if (screen) {
-    screen.classList.add("active");
+    screen.style.display = 'flex';
+    console.log(`Made visible: ${screenId}`);
     gameState.currentScreen = screenId;
-
-    // Special handling for specific screens
-    switch (screenId) {
-      case "game-mode-screen":
-        // Any specific logic for game mode screen
-        break;
-      case "character-screen":
-        // Any specific logic for character screen
+  } else {
+    debugLog(`Screen not found: ${screenId}`, 'error');
+    console.error(`ERROR: Screen element with ID "${screenId}" not found in the DOM`);
         break;
     }
   } else {

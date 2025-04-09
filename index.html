@@ -617,6 +617,47 @@
 
       <!-- Notification -->
       <div id="notification" class="notification"></div>
+
+      <script>
+        // Force UI visibility after everything loads
+        window.addEventListener("load", function () {
+          console.log("FORCE VISIBILITY CHECK");
+
+          // Log all screens
+          const screens = document.querySelectorAll(".screen");
+          console.log(
+            `Found ${screens.length} screens:`,
+            Array.from(screens).map((s) => s.id)
+          );
+
+          // Check if start-screen exists
+          const startScreen = document.getElementById("start-screen");
+          console.log("Start screen exists:", !!startScreen);
+
+          if (startScreen) {
+            // Force display start screen
+            startScreen.style.display = "flex";
+            startScreen.style.visibility = "visible";
+            startScreen.style.opacity = "1";
+            console.log("Forced start screen visible");
+
+            // Add border for visibility
+            startScreen.style.border = "5px solid lime";
+          } else {
+            console.error("Start screen element not found!");
+          }
+
+          // Force display loading screen as fallback
+          const loadingScreen = document.getElementById("loading-screen");
+          if (loadingScreen) {
+            loadingScreen.style.display = "flex";
+            loadingScreen.style.visibility = "visible";
+            loadingScreen.style.opacity = "1";
+            loadingScreen.style.border = "5px solid yellow";
+            console.log("Forced loading screen visible as fallback");
+          }
+        });
+      </script>
     </div>
 
     <!-- Audio Elements -->

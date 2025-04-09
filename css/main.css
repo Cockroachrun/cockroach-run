@@ -1,3 +1,27 @@
+/* Debug visibility */
+body {
+  background-color: #333;
+}
+
+.screen {
+  border: 2px solid red;
+  color: white;
+  min-height: 100px;
+  min-width: 200px;
+}
+
+#loading-screen,
+#start-screen {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Force show #loading-screen initially */
+#loading-screen {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 @import url("components/buttons.css");
 @import url("components/characters.css");
 @import url("components/game-ui.css");
