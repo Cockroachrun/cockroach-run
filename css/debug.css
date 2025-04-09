@@ -1,6 +1,7 @@
 /* Debug styles for UI visibility */
 .screen {
   border: 2px dashed red;
+  position: relative;
   z-index: 100 !important;
 }
 

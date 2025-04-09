@@ -4,6 +4,7 @@ canvas {
 }
 
 .screen {
+  position: relative;
   z-index: 100 !important; /* Force screens above canvas */
   border: 2px solid red;
 }
