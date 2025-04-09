@@ -4,22 +4,22 @@ import { debugLog } from "../utils/utils.js";
 export function initLoading(gameState, showScreenCallback) {
   debugLog("Initializing loading screen");
 
-  // Ensure loading screen is visible
+  // Ensure loading screen is showing
   showScreenCallback("loading-screen");
 
-  // Get loading screen elements
+  // Get loading elements
   const loadingBar = document.getElementById("loading-bar");
   const loadingStatus = document.getElementById("loading-status");
   const skipButton = document.getElementById("skip-loading-button");
 
   if (!loadingBar || !loadingStatus || !skipButton) {
-    console.error("[ERROR] Loading screen elements not found!");
+    console.error("[ERROR] Loading screen elements missing!");
     return;
   }
 
   // Skip button functionality
   skipButton.addEventListener("click", () => {
-    console.log("[UI] Skip loading button clicked");
+    console.log("[UI] Skip button clicked");
     completeLoading();
   });
 
@@ -29,7 +29,6 @@ export function initLoading(gameState, showScreenCallback) {
     progress += 5;
     if (progress > 100) progress = 100;
 
-    // Update loading bar
     loadingBar.style.width = `${progress}%`;
 
     // Update status text based on progress
@@ -43,7 +42,6 @@ export function initLoading(gameState, showScreenCallback) {
       loadingStatus.textContent = "Almost ready...";
     }
 
-    // Complete loading when progress reaches 100
     if (progress >= 100) {
       clearInterval(loadingInterval);
       completeLoading();
@@ -52,26 +50,31 @@ export function initLoading(gameState, showScreenCallback) {
 
   // Function to complete loading
   function completeLoading() {
+    console.log("[UI] Completing loading process");
     clearInterval(loadingInterval);
     loadingBar.style.width = "100%";
     loadingStatus.textContent = "Loading complete!";
 
     // Add fade-out animation
     const loadingScreen = document.getElementById("loading-screen");
-    loadingScreen.classList.add("fade-out");
+    if (loadingScreen) {
+      loadingScreen.classList.add("fade-out");
+    }
 
     // Move to start screen after animation
     setTimeout(() => {
+      console.log("[UI] Transitioning to start screen");
       showScreenCallback("start-screen");
-      debugLog("Loading complete, showing start screen");
 
-      // Try to play menu music
+      // Start menu music
       const menuMusic = document.getElementById("menu-music");
       if (menuMusic) {
         menuMusic.play().catch((e) => {
           debugLog("Music autoplay blocked by browser", "warn");
         });
       }
+
+      debugLog("Loading complete, showing start screen");
     }, 500);
   }
 }

@@ -1,43 +1,3 @@
-/* Debug styles */
-canvas {
-  z-index: 1 !important; /* Force canvas below UI */
-}
-
-.screen {
-  position: relative;
-  z-index: 100 !important; /* Force screens above canvas */
-  border: 2px solid red;
-}
-
-.screen.active {
-  display: flex !important; /* Force display */
-  border: 2px solid green;
-}
-
-/* Debug visibility */
-body {
-  background-color: #333;
-}
-
-.screen {
-  border: 2px solid red;
-  color: white;
-  min-height: 100px;
-  min-width: 200px;
-}
-
-#loading-screen,
-#start-screen {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-/* Force show #loading-screen initially */
-#loading-screen {
-  display: flex !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
 @import url("components/buttons.css");
 @import url("components/characters.css");
 @import url("components/game-ui.css");
@@ -87,13 +47,48 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  z-index: var(--z-game);
 }
 
-.orbitron {
+/* Typography */
+h1,
+h2,
+h3 {
   font-family: "Orbitron", sans-serif;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
-/* Screen management */
+h1 {
+  font-size: 2.5rem;
+  color: var(--neon-green);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  color: var(--accent-color);
+}
+
+h3 {
+  font-size: 1.2rem;
+  color: var(--neon-green);
+}
+
+p {
+  margin-bottom: 1rem;
+  text-align: center;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+ul {
+  text-align: left;
+  margin: 0 auto;
+  max-width: 400px;
+}
+
 /* Screen management */
 .screen {
   position: fixed;
@@ -104,14 +99,12 @@ body {
   display: none;
   z-index: var(--z-ui);
   background-color: var(--dark-bg);
-  color: var(--text-color);
 }
 
 .screen.active {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .screen-content {
@@ -121,14 +114,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  border: 1px solid var(--accent-color);
 }
 
 /* Button styling */
 .button {
-  background-color: var(--menu-bg);
+  background-color: rgba(0, 0, 0, 0.5);
   color: var(--text-color);
-  border: 2px solid var(--accent-color);
+  border: 1px solid var(--accent-color);
   border-radius: 4px;
   padding: 0.8rem 1.5rem;
   margin: 0.5rem;
@@ -136,7 +131,6 @@ body {
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s;
-  text-align: center;
   text-transform: uppercase;
 }
 
@@ -145,36 +139,34 @@ body {
   transform: scale(1.05);
 }
 
-/* Typography */
-h1,
-h2,
-h3 {
-  font-family: "Orbitron", sans-serif;
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 1rem 0;
 }
 
-h1 {
-  font-size: 2.5rem;
-  color: var(--neon-green);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 2rem;
+/* Game mode options */
+.mode-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 2rem 0;
+  width: 100%;
 }
 
-h2 {
-  font-size: 1.8rem;
-  color: var(--accent-color);
-  margin-bottom: 1rem;
+.mode-option {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--accent-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.2s;
+  cursor: pointer;
 }
 
-h3 {
-  font-size: 1.2rem;
-  color: var(--neon-green);
-}
-
-p {
-  margin: 0.5rem 0 1.5rem;
-  line-height: 1.5;
+.mode-option:hover {
+  border-color: var(--neon-green);
+  transform: scale(1.02);
 }
 
 /* Modal system */
@@ -195,14 +187,12 @@ p {
   display: flex;
 }
 
-/* Notification system */
-#notification-container {
-  position: fixed;
-  top: 70px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: var(--z-overlay);
-  pointer-events: none;
+/* Game notes */
+.game-notes {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 1px solid var(--accent-color);
+  width: 100%;
 }
 
 /* Animations */
@@ -234,5 +224,16 @@ p {
 
 /* Responsiveness */
 @media (max-width: 768px) {
-  /* Mobile styles */
+  .screen-content {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
 }

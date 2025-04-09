@@ -17,29 +17,45 @@
     <!-- Loading Screen -->
     <div id="loading-screen" class="screen active">
       <div class="screen-content">
-        <img
-          src="assets/images/logo_title.png"
-          alt="Cockroach Run"
-          class="loading-logo"
-        />
+        <h1>COCKROACH RUN</h1>
         <div class="loading-bar-container">
           <div id="loading-bar" class="loading-bar"></div>
         </div>
-        <div id="loading-status" class="loading-status">Loading assets...</div>
-        <div class="loading-flavor">"Roaches scurry in the shadows..."</div>
-        <div class="loading-info">$Roach to launch soon on Odin.fun</div>
-        <button id="skip-loading-button" class="button">Skip Loading</button>
+        <p id="loading-status" class="loading-status">Loading assets...</p>
+        <p class="loading-flavor">"Roaches scurry in the shadows..."</p>
+        <p class="loading-info">$Roach to launch soon on Odin.fun</p>
+        <button id="skip-loading-button" class="button">SKIP LOADING</button>
       </div>
     </div>
 
     <!-- Start Screen -->
     <div id="start-screen" class="screen">
       <div class="screen-content">
-        <h1 class="game-title">COCKROACH RUN</h1>
+        <h1>COCKROACH RUN</h1>
+        <p>Game Started! Use WASD or Arrow Keys to move</p>
         <div class="button-container">
           <button id="play-button" class="button">PLAY GAME</button>
           <button id="settings-button" class="button">SETTINGS</button>
           <button id="credits-button" class="button">CREDITS</button>
+          <button id="connect-wallet-button" class="button">
+            Connect Wallet
+          </button>
+        </div>
+
+        <div class="game-notes">
+          <h2>Game Notes</h2>
+          <p>Version: Beta 1.0</p>
+          <p>$Roach to launch soon on Odin.fun!</p>
+          <p>
+            This is a beta version of Cockroach Run. Please report any bugs or
+            issues.
+          </p>
+          <h3>Current features:</h3>
+          <ul>
+            <li>Free Runner mode</li>
+            <li>Multiple cockroach characters</li>
+            <li>Wallet integration</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -47,20 +63,20 @@
     <!-- Game Mode Screen -->
     <div id="game-mode-screen" class="screen">
       <div class="screen-content">
-        <h2>SELECT GAME MODE</h2>
+        <h1>SELECT GAME MODE</h1>
         <p>Choose your cockroach experience</p>
 
-        <div class="mode-options">
-          <div class="mode-option" id="free-runner-mode">
-            <h3>FREE RUNNER</h3>
+        <div class="mode-container">
+          <div class="mode-option" id="free-runner-option">
+            <h2>FREE RUNNER</h2>
             <p>
               Explore the ecosystem, interact with factions, gather resources,
               lay eggs, and unlock ancestral memories.
             </p>
           </div>
 
-          <div class="mode-option" id="roach-runner-mode">
-            <h3>ROACH RUNNER</h3>
+          <div class="mode-option" id="roach-runner-option">
+            <h2>ROACH RUNNER</h2>
             <p>
               Escape dangers in procedurally generated sewers. Dodge obstacles,
               collect resources, survive as long as possible.
@@ -71,50 +87,11 @@
         <p>
           Connect your Bitcoin Ordinals wallet to unlock additional game modes.
         </p>
-        <button class="back-button">Back</button>
-      </div>
-    </div>
-
-    <!-- Add other screens with similar structure -->
-
-    <!-- Game UI Overlay -->
-    <div id="game-ui" class="ui-overlay hidden">
-      <div class="stats-container">
-        <div class="stat">
-          <span>Health: </span>
-          <span id="health-value">100/100</span>
-        </div>
-        <div class="stat">
-          <span>Score: </span>
-          <span id="score-value">0</span>
-        </div>
-        <div class="stat">
-          <span>Eggs: </span>
-          <span id="eggs-value">0</span>
-        </div>
+        <button id="back-from-mode" class="button">Back</button>
       </div>
     </div>
 
     <!-- Game Scripts -->
     <script type="module" src="js/main.js"></script>
-
-    <!-- Debug Scripts -->
-    <script>
-      // Debug utility to check screens after page load
-      window.addEventListener("DOMContentLoaded", function () {
-        console.log("Page loaded - checking screens:");
-        setTimeout(function () {
-          const screens = document.querySelectorAll(".screen");
-          console.log(`Found ${screens.length} screens:`);
-          screens.forEach((screen, i) => {
-            console.log(
-              `Screen ${i}: ID="${screen.id}", Classes="${
-                screen.className
-              }", Display=${getComputedStyle(screen).display}`
-            );
-          });
-        }, 1000);
-      });
-    </script>
   </body>
 </html>
