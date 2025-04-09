@@ -110,16 +110,7 @@ function initGame() {
 
 // Screen management
 function showScreen(screenId) {
-  console.log("--- showScreen() called ---");
-  console.log("All .screen elements:");
-  document.querySelectorAll(".screen").forEach((s) => {
-    console.log(
-      `ID: ${s.id}, display: ${getComputedStyle(s).display}, classes: ${
-        s.className
-      }`
-    );
-  });
-  console.log("---------------------------");
+  debugLog(`Showing screen: ${screenId}`);
   console.log(`[UI] Attempting to show screen: ${screenId}`);
 
   // Debug: List all screens
@@ -140,8 +131,21 @@ function showScreen(screenId) {
     screen.style.display = "flex"; // Explicitly set display to flex
     console.log(`[UI] Made visible: ${screenId}`);
     gameState.currentScreen = screenId;
+
+    // Special handling for specific screens
+    switch (screenId) {
+      case "game-mode-screen":
+        console.log("[UI] Applying game mode screen specifics");
+        break;
+      case "character-screen":
+        console.log("[UI] Applying character screen specifics");
+        break;
+    }
   } else {
-    console.error(`[ERROR] Screen not found: ${screenId}`);
+    debugLog(`Screen not found: ${screenId}`, "error");
+    console.error(
+      `[ERROR] Screen element with ID "${screenId}" not found in the DOM`
+    );
 
     // List all screens to help debug
     document.querySelectorAll(".screen").forEach((s) => {

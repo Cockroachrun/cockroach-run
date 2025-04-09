@@ -4,45 +4,43 @@ import { debugLog } from "../utils/utils.js";
 export function initLoading(gameState, showScreenCallback) {
   debugLog("Initializing loading screen");
 
-  // Create loading screen content
+  // Make sure we're showing the loading screen first
+  showScreenCallback("loading-screen");
+
+  // Find loading elements or create them if missing
   const loadingScreen = document.getElementById("loading-screen");
+  if (!loadingScreen) {
+    console.error("Loading screen element not found!");
+    return;
+  }
 
-  loadingScreen.innerHTML = `
-        <img src="assets/images/logo_title.png" alt="Cockroach Run" class="loading-logo-image">
-        <div class="loading-bar-container">
-            <div id="loading-bar" class="loading-bar"></div>
-        </div>
-        <div id="loading-status" class="loading-status">Loading assets...</div>
-        <div class="transition-text">
-            "Roaches scurry in the shadows..."
-        </div>
-        <div id="loading-quote" class="loading-quote">"Roaches scurry in the shadows..."</div>
-        <div class="promo-text">
-            <span class="highlight">$Roach</span> to launch soon on <span class="highlight">Odin.fun</span>
-        </div>
-        <div id="loading-error" class="loading-error" style="display:none;">An error occurred. Retrying with fallback options...</div>
-        <button id="skip-loading-button" class="skip-button">Skip Loading</button>
-    `;
+  // Get or create loading UI elements
+  let loadingBar = document.getElementById("loading-bar");
+  let loadingStatus = document.getElementById("loading-status");
+  let skipButton = document.getElementById("skip-loading-button");
 
-  // Get elements
-  const loadingBar = document.getElementById("loading-bar");
-  const loadingStatus = document.getElementById("loading-status");
-  const skipButton = document.getElementById("skip-loading-button");
+  // Create elements if they don't exist
+  if (!loadingBar) {
+    loadingBar = document.createElement("div");
+    loadingBar.id = "loading-bar";
+    loadingBar.className = "loading-bar";
+    loadingScreen.appendChild(loadingBar);
+  }
 
-  console.log("--- Loading Screen Element IDs Check ---");
-  [
-    "loading-bar",
-    "loadingBar",
-    "loading-status",
-    "loadingStatus",
-    "skip-loading-button",
-    "skipLoadingButton",
-  ].forEach((id) => {
-    const el = document.getElementById(id);
-    console.log(`Element with ID "${id}":`, el);
-  });
-  console.log("Loading screen innerHTML:", loadingScreen.innerHTML);
-  console.log("---------------------------------------");
+  if (!loadingStatus) {
+    loadingStatus = document.createElement("p");
+    loadingStatus.id = "loading-status";
+    loadingStatus.textContent = "Loading assets...";
+    loadingScreen.appendChild(loadingStatus);
+  }
+
+  if (!skipButton) {
+    skipButton = document.createElement("button");
+    skipButton.id = "skip-loading-button";
+    skipButton.textContent = "Skip Loading";
+    skipButton.className = "button";
+    loadingScreen.appendChild(skipButton);
+  }
 
   // Show skip button after delay
   setTimeout(() => {
@@ -54,7 +52,7 @@ export function initLoading(gameState, showScreenCallback) {
     completeLoading();
   });
 
-  // Simulate loading
+  // Simulate loading process
   let progress = 0;
   const loadingInterval = setInterval(() => {
     progress += 5;
@@ -77,7 +75,7 @@ export function initLoading(gameState, showScreenCallback) {
       clearInterval(loadingInterval);
       completeLoading();
     }
-  }, 100);
+  }, 200);
 
   // Function to complete loading
   function completeLoading() {
