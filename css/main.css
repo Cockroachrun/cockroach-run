@@ -1,3 +1,18 @@
+/* Debug styles */
+canvas {
+  z-index: 1 !important; /* Force canvas below UI */
+}
+
+.screen {
+  z-index: 100 !important; /* Force screens above canvas */
+  border: 2px solid red;
+}
+
+.screen.active {
+  display: flex !important; /* Force display */
+  border: 2px solid green;
+}
+
 /* Debug visibility */
 body {
   background-color: #333;

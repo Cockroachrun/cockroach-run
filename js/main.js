@@ -49,6 +49,10 @@ function initGame() {
   window.game.renderer.setSize(window.innerWidth, window.innerHeight);
   window.game.renderer.shadowMap.enabled = true;
 
+  // Force renderer canvas position and z-index for UI layering
+  window.game.renderer.domElement.style.position = "absolute";
+  window.game.renderer.domElement.style.zIndex = "1";
+
   // Asset Loader
   window.game.assetLoader = new AssetLoader();
 
@@ -106,49 +110,32 @@ function initGame() {
 
 // Screen management
 function showScreen(screenId) {
-  debugLog(`Showing screen: ${screenId}`);
   console.log(`[UI] Attempting to show screen: ${screenId}`);
 
-  // Debug: List all screens for verification
+  // Debug: List all screens
   const allScreens = document.querySelectorAll(".screen");
   console.log(`[UI] Found ${allScreens.length} screen elements`);
-  allScreens.forEach((s) =>
-    console.log(`[UI] Screen: ${s.id}, Classes: ${s.className}`)
-  );
 
-  // Hide all screens - use both class and explicit style
+  // Hide all screens using both class and direct style
   allScreens.forEach((screen) => {
     screen.classList.remove("active");
-    screen.style.display = "none"; // Explicitly set display none
+    screen.style.display = "none"; // Explicitly set display to none
     console.log(`[UI] Hidden screen: ${screen.id}`);
   });
 
-  // Show requested screen - use both class and explicit style
+  // Show requested screen using both class and direct style
   const screen = document.getElementById(screenId);
   if (screen) {
     screen.classList.add("active");
-    screen.style.display = "flex"; // Explicitly set display flex
-    console.log(`[UI] Made visible: ${screenId}, Element:`, screen);
+    screen.style.display = "flex"; // Explicitly set display to flex
+    console.log(`[UI] Made visible: ${screenId}`);
     gameState.currentScreen = screenId;
-
-    // Special handling for specific screens
-    switch (screenId) {
-      case "game-mode-screen":
-        console.log("[UI] Applying game mode screen specifics");
-        break;
-      case "character-screen":
-        console.log("[UI] Applying character screen specifics");
-        break;
-    }
   } else {
-    debugLog(`Screen not found: ${screenId}`, "error");
-    console.error(
-      `[ERROR] Screen element with ID "${screenId}" not found in the DOM`
-    );
+    console.error(`[ERROR] Screen not found: ${screenId}`);
 
-    // List all elements with .screen class as a fallback
+    // List all screens to help debug
     document.querySelectorAll(".screen").forEach((s) => {
-      console.log(`[UI] Available screen: ${s.id || "unknown-id"}`);
+      console.log(`[UI] Available screen: ${s.id || "no-id"}`);
     });
   }
 }
