@@ -6,6 +6,7 @@ import { initGameUI } from "./components/game-ui.js";
 import { initAudio } from "./core/audio.js";
 import { initWallet } from "./services/wallet.js";
 import { debugLog } from "./utils/utils.js";
+import { startGameLoop } from "./core/game-loop.js";
 
 // Game state
 const gameState = {
@@ -51,11 +52,20 @@ function initGame() {
   window.game.assetLoader = new AssetLoader();
 
   // Basic animation loop
-  function animate() {
-    requestAnimationFrame(animate);
-    window.game.renderer.render(window.game.scene, window.game.camera);
-  }
-  animate();
+  startGameLoop(
+    (dt) => {
+      // Update game state (fixed time step)
+      if (window.game && window.game.sceneManager) {
+        window.game.sceneManager.update(dt);
+      }
+    },
+    () => {
+      // Render frame
+      if (window.game) {
+        window.game.renderer.render(window.game.scene, window.game.camera);
+      }
+    }
+  );
 
   window.addEventListener("resize", () => {
     window.game.camera.aspect = window.innerWidth / window.innerHeight;
