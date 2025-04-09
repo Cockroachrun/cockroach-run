@@ -54,12 +54,14 @@ function initGame() {
   // Basic animation loop
   startGameLoop(
     (dt) => {
+      console.log("[GameLoop] Update tick, dt:", dt);
       // Update game state (fixed time step)
       if (window.game && window.game.sceneManager) {
         window.game.sceneManager.update(dt);
       }
     },
     () => {
+      console.log("[GameLoop] Render frame");
       // Render frame
       if (window.game) {
         window.game.renderer.render(window.game.scene, window.game.camera);
