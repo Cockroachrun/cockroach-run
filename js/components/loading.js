@@ -7,40 +7,50 @@ export function initLoading(gameState, showScreenCallback) {
   // Make sure we're showing the loading screen first
   showScreenCallback("loading-screen");
 
-  // Find loading elements or create them if missing
+  // Find or create loading elements
   const loadingScreen = document.getElementById("loading-screen");
   if (!loadingScreen) {
     console.error("Loading screen element not found!");
     return;
   }
 
-  // Get or create loading UI elements
+  // If loading screen doesn't have a loading bar, create one
   let loadingBar = document.getElementById("loading-bar");
-  let loadingStatus = document.getElementById("loading-status");
-  let skipButton = document.getElementById("skip-loading-button");
-
-  // Create elements if they don't exist
   if (!loadingBar) {
+    // Create loading bar container
+    const loadingBarContainer = document.createElement("div");
+    loadingBarContainer.className = "loading-bar-container";
+    loadingScreen.appendChild(loadingBarContainer);
+
+    // Create loading bar
     loadingBar = document.createElement("div");
     loadingBar.id = "loading-bar";
     loadingBar.className = "loading-bar";
-    loadingScreen.appendChild(loadingBar);
+    loadingBarContainer.appendChild(loadingBar);
   }
 
+  // If loading screen doesn't have a status text, create one
+  let loadingStatus = document.getElementById("loading-status");
   if (!loadingStatus) {
-    loadingStatus = document.createElement("p");
+    loadingStatus = document.createElement("div");
     loadingStatus.id = "loading-status";
+    loadingStatus.className = "loading-status";
     loadingStatus.textContent = "Loading assets...";
     loadingScreen.appendChild(loadingStatus);
   }
 
+  // If loading screen doesn't have a skip button, create one
+  let skipButton = document.getElementById("skip-loading-button");
   if (!skipButton) {
     skipButton = document.createElement("button");
     skipButton.id = "skip-loading-button";
     skipButton.textContent = "Skip Loading";
-    skipButton.className = "button";
     loadingScreen.appendChild(skipButton);
   }
+
+  // Ensure the loading screen is visible
+  loadingScreen.style.display = "flex";
+  loadingScreen.classList.add("active");
 
   // Show skip button after delay
   setTimeout(() => {
@@ -80,8 +90,8 @@ export function initLoading(gameState, showScreenCallback) {
   // Function to complete loading
   function completeLoading() {
     clearInterval(loadingInterval);
-    loadingBar.style.width = "100%";
-    loadingStatus.textContent = "Loading complete!";
+    if (loadingBar) loadingBar.style.width = "100%";
+    if (loadingStatus) loadingStatus.textContent = "Loading complete!";
 
     // Add fade-out animation
     loadingScreen.classList.add("fade-out");
