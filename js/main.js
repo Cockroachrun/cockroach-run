@@ -7,6 +7,7 @@ import { initAudio } from "./core/audio.js";
 import { initWallet } from "./services/wallet.js";
 import { debugLog } from "./utils/utils.js";
 import { startGameLoop } from "./core/game-loop.js";
+import { AssetLoader } from "./core/asset-loader.js";
 
 // Game state
 const gameState = {

@@ -3,7 +3,7 @@
  * Handles loading of 3D models, textures, sounds, and other assets
  */
 
-class AssetLoader {
+export class AssetLoader {
   constructor() {
     this.models = new Map();
     this.textures = new Map();
