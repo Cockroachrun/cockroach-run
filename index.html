@@ -12,607 +12,109 @@
     <link rel="stylesheet" href="css/debug.css" />
   </head>
   <body>
-    <!-- Loading Screen with Kitchen Background-->
-    <div id="loading-screen" class="loading-screen"></div>
+    <div id="game-container"></div>
 
-    <!-- Start Screen Placeholder -->
-    <div id="start-screen" style="display: none">
-      <h1>Start Screen Placeholder</h1>
-      <button>Start Game</button>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="screen active">
+      <div class="screen-content">
+        <img
+          src="assets/images/logo_title.png"
+          alt="Cockroach Run"
+          class="loading-logo"
+        />
+        <div class="loading-bar-container">
+          <div id="loading-bar" class="loading-bar"></div>
+        </div>
+        <div id="loading-status" class="loading-status">Loading assets...</div>
+        <div class="loading-flavor">"Roaches scurry in the shadows..."</div>
+        <div class="loading-info">$Roach to launch soon on Odin.fun</div>
+        <button id="skip-loading-button" class="button">Skip Loading</button>
+      </div>
     </div>
 
-    <!-- Game Canvas for 3D rendering -->
-    <canvas id="gameCanvas"></canvas>
-
-    <!-- Debug Info -->
-    <div id="debugInfo"></div>
-
-    <!-- Game Started Message -->
-    <div id="gameStartedMessage">
-      Game Started! Use WASD or Arrow Keys to move
+    <!-- Start Screen -->
+    <div id="start-screen" class="screen">
+      <div class="screen-content">
+        <h1 class="game-title">COCKROACH RUN</h1>
+        <div class="button-container">
+          <button id="play-button" class="button">PLAY GAME</button>
+          <button id="settings-button" class="button">SETTINGS</button>
+          <button id="credits-button" class="button">CREDITS</button>
+        </div>
+      </div>
     </div>
 
-    <!-- Model Loading Status -->
-    <div id="modelLoadingStatus"></div>
+    <!-- Game Mode Screen -->
+    <div id="game-mode-screen" class="screen">
+      <div class="screen-content">
+        <h2>SELECT GAME MODE</h2>
+        <p>Choose your cockroach experience</p>
 
-    <!-- Wallet Connection Button -->
-    <div class="wallet-connect-container">
-      <button id="walletConnectButton" class="btn-wallet">
-        <i class="fas fa-wallet mr-2"></i> Connect Wallet
-      </button>
-    </div>
+        <div class="mode-options">
+          <div class="mode-option" id="free-runner-mode">
+            <h3>FREE RUNNER</h3>
+            <p>
+              Explore the ecosystem, interact with factions, gather resources,
+              lay eggs, and unlock ancestral memories.
+            </p>
+          </div>
 
-    <!-- Game Notes Toggle Button -->
-    <button id="notesToggleButton" class="notes-toggle-button">
-      <i class="fas fa-clipboard-list"></i>
-    </button>
+          <div class="mode-option" id="roach-runner-mode">
+            <h3>ROACH RUNNER</h3>
+            <p>
+              Escape dangers in procedurally generated sewers. Dodge obstacles,
+              collect resources, survive as long as possible.
+            </p>
+          </div>
+        </div>
 
-    <!-- Game Notes Panel -->
-    <div id="gameNotesPanel" class="game-notes-panel">
-      <button id="closeNotesButton" class="close-notes-button">
-        <i class="fas fa-times"></i>
-      </button>
-      <h3>Game Notes</h3>
-      <div class="notes-content">
-        <p>Version: Beta 1.0</p>
-        <p>$Roach to launch soon on Odin.fun!</p>
         <p>
-          This is a beta version of Cockroach Run. Please report any bugs or
-          issues.
+          Connect your Bitcoin Ordinals wallet to unlock additional game modes.
         </p>
-        <p>Current features:</p>
-        <ul>
-          <li>Free Runner mode</li>
-          <li>Multiple cockroach characters</li>
-          <li>Wallet integration</li>
-        </ul>
+        <button class="back-button">Back</button>
       </div>
     </div>
 
-    <!-- UI Container -->
-    <div id="ui-container" class="ui-container">
-      <!-- Menu Background - Dynamic -->
-      <div class="menu-bg"></div>
+    <!-- Add other screens with similar structure -->
 
-      <!-- Start Screen -->
-      <div id="startScreen" class="screen">
-        <div class="logo-container">
-          <img
-            src="assets/images/ui/logo_title.png"
-            alt="Cockroach Run"
-            class="game-logo-image"
-          />
-
-          <!-- Animated cockroach runner -->
-          <div class="cockroach-runner-container">
-            <div class="cockroach-sprite"></div>
-          </div>
+    <!-- Game UI Overlay -->
+    <div id="game-ui" class="ui-overlay hidden">
+      <div class="stats-container">
+        <div class="stat">
+          <span>Health: </span>
+          <span id="health-value">100/100</span>
         </div>
-
-        <div
-          class="flex flex-col items-center justify-center button-container"
-          style="margin-top: -70px"
-        >
-          <button id="playButton" class="btn-glow orbitron mb-4">
-            PLAY GAME
-          </button>
-          <button id="settingsButton" class="btn-glow orbitron mb-4">
-            SETTINGS
-          </button>
-          <button id="creditsButton" class="btn-glow orbitron">CREDITS</button>
+        <div class="stat">
+          <span>Score: </span>
+          <span id="score-value">0</span>
+        </div>
+        <div class="stat">
+          <span>Eggs: </span>
+          <span id="eggs-value">0</span>
         </div>
       </div>
+    </div>
 
-      <!-- Game Mode Selection Screen -->
-      <div id="gameModeScreen" class="screen">
-        <button class="back-button" id="gameModeBackButton">
-          <i class="fas fa-arrow-left"></i> Back
-        </button>
+    <!-- Game Scripts -->
+    <script type="module" src="js/main.js"></script>
 
-        <div class="menu-panel">
-          <h2 class="panel-header orbitron">SELECT GAME MODE</h2>
-          <p class="panel-subheader">Choose your cockroach experience</p>
-
-          <div
-            class="flex flex-col md:flex-row justify-center mode-cards-container"
-          >
-            <div class="mode-card" id="freeModeCard">
-              <h3 class="orbitron">FREE RUNNER</h3>
-              <p>
-                Explore the ecosystem, interact with factions, gather resources,
-                lay eggs, and unlock ancestral memories.
-              </p>
-              <div class="mt-4 flex justify-center">
-                <i
-                  class="fas fa-globe text-2xl"
-                  style="color: var(--neon-green)"
-                ></i>
-              </div>
-            </div>
-
-            <div class="mode-card locked" id="runModeCard">
-              <h3 class="orbitron">ROACH RUNNER</h3>
-              <p>
-                Escape dangers in procedurally generated sewers. Dodge
-                obstacles, collect resources, survive as long as possible.
-              </p>
-              <div class="mt-4 flex justify-center">
-                <i
-                  class="fas fa-running text-2xl"
-                  style="color: var(--neon-green)"
-                ></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="text-center mt-6 text-xs opacity-50">
-            <p>
-              Connect your Bitcoin Ordinals wallet to unlock additional game
-              modes.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Character Selection Screen -->
-      <div id="characterScreen" class="screen">
-        <button class="back-button" id="characterBackButton">
-          <i class="fas fa-arrow-left"></i> Back
-        </button>
-
-        <div class="menu-panel">
-          <h2 class="panel-header orbitron">SELECT ROACH</h2>
-          <p class="panel-subheader">Choose your cockroach type</p>
-
-          <!-- 3D Model Viewer - Now fixed to display models correctly -->
-          <div class="model-viewer-container">
-            <div id="model-viewer"></div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 character-grid">
-            <div class="character-option selected" id="defaultCharacter">
-              <div class="character-preview">
-                <i class="fas fa-bug"></i>
-              </div>
-              <h3 class="orbitron text-lg">Default Roach</h3>
-              <p class="text-sm">Speed Boost</p>
-              <div class="text-xs text-green-400 mt-1">Unlocked</div>
-            </div>
-
-            <div class="character-option locked" id="stealthCharacter">
-              <div class="character-preview">
-                <i class="fas fa-bug"></i>
-              </div>
-              <h3 class="orbitron text-lg">Stealth Roach</h3>
-              <p class="text-sm">Stealth Mode</p>
-              <div class="text-xs text-red-400 mt-1">Locked</div>
-            </div>
-
-            <div class="character-option locked" id="glideCharacter">
-              <div class="character-preview">
-                <i class="fas fa-bug"></i>
-              </div>
-              <h3 class="orbitron text-lg">Glider Roach</h3>
-              <p class="text-sm">Glide Boost</p>
-              <div class="text-xs text-red-400 mt-1">Locked</div>
-            </div>
-          </div>
-
-          <div class="mt-6 text-center">
-            <button id="startGameButton" class="btn-glow orbitron">
-              START GAME
-            </button>
-          </div>
-
-          <div class="text-center mt-4 text-xs opacity-50">
-            <p>
-              Connect your wallet to unlock additional roaches via Bitcoin
-              Ordinals.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Settings Screen -->
-      <div id="settingsScreen" class="screen">
-        <button class="back-button" id="settingsBackButton">
-          <i class="fas fa-arrow-left"></i> Back
-        </button>
-
-        <div class="menu-panel">
-          <h2 class="panel-header orbitron">SETTINGS</h2>
-
-          <div class="settings-grid">
-            <div class="settings-section">
-              <h3>Graphics</h3>
-
-              <div class="flex justify-between items-center my-3">
-                <span>Quality</span>
-                <select
-                  id="graphicsQuality"
-                  class="bg-gray-800 text-white px-3 py-1 rounded border border-gray-700"
-                >
-                  <option value="low">Low</option>
-                  <option value="medium" selected>Medium</option>
-                  <option value="high">High</option>
-                </select>
-              </div>
-
-              <div class="flex justify-between items-center my-3">
-                <span>Shadows</span>
-                <label class="toggle-switch">
-                  <input type="checkbox" id="shadowsToggle" checked />
-                  <span class="toggle-slider"></span>
-                </label>
-              </div>
-
-              <div class="my-3">
-                <div class="flex justify-between">
-                  <span>Brightness</span>
-                  <span id="brightnessValue">100%</span>
-                </div>
-                <input
-                  type="range"
-                  id="brightnessSlider"
-                  class="range-slider"
-                  min="50"
-                  max="150"
-                  value="100"
-                />
-              </div>
-            </div>
-
-            <div class="settings-section">
-              <h3>Audio</h3>
-
-              <div class="flex justify-between items-center my-3">
-                <span>Music</span>
-                <label class="toggle-switch">
-                  <input type="checkbox" id="music-toggle" checked />
-                  <span class="toggle-slider"></span>
-                </label>
-              </div>
-
-              <div class="my-3">
-                <div class="flex justify-between">
-                  <span>Music Volume</span>
-                  <span id="musicVolumeValue">80%</span>
-                </div>
-                <input
-                  type="range"
-                  id="musicVolumeSlider"
-                  class="range-slider"
-                  min="0"
-                  max="100"
-                  value="80"
-                />
-              </div>
-
-              <div class="flex justify-between items-center my-3">
-                <span>Sound Effects</span>
-                <label class="toggle-switch">
-                  <input type="checkbox" id="sound-toggle" checked />
-                  <span class="toggle-slider"></span>
-                </label>
-              </div>
-
-              <div class="my-3">
-                <div class="flex justify-between">
-                  <span>SFX Volume</span>
-                  <span id="sfxVolumeValue">100%</span>
-                </div>
-                <input
-                  type="range"
-                  id="sfxVolumeSlider"
-                  class="range-slider"
-                  min="0"
-                  max="100"
-                  value="100"
-                />
-              </div>
-            </div>
-
-            <div class="settings-section">
-              <h3>Controls</h3>
-
-              <div class="my-3">
-                <div class="flex justify-between">
-                  <span>Camera Sensitivity</span>
-                  <span id="sensitivityValue">5</span>
-                </div>
-                <input
-                  type="range"
-                  id="sensitivitySlider"
-                  class="range-slider"
-                  min="1"
-                  max="10"
-                  value="5"
-                />
-              </div>
-
-              <div class="flex justify-between items-center my-3">
-                <span>Invert Y-Axis</span>
-                <label class="toggle-switch">
-                  <input type="checkbox" id="invertYToggle" />
-                  <span class="toggle-slider"></span>
-                </label>
-              </div>
-
-              <div class="flex justify-between items-center my-3">
-                <span class="w-1/2">Control Scheme</span>
-                <select
-                  id="controlScheme"
-                  class="bg-gray-800 text-white px-3 py-1 rounded border border-gray-700 w-1/2"
-                >
-                  <option value="arrows">Arrow Keys</option>
-                  <option value="wasd" selected>WASD</option>
-                  <option value="custom">Custom</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="settings-section">
-              <h3>Pro Settings</h3>
-
-              <div class="flex justify-between items-center my-3">
-                <span>Music Track</span>
-                <select
-                  id="musicTrackSelect"
-                  class="bg-gray-800 text-white px-3 py-1 rounded border border-gray-700"
-                >
-                  <option value="Menu_loop.mp3">Menu Theme</option>
-                  <option value="Cockroach run music.mp3">Cockroach Run</option>
-                  <option value="world_theme.mp3">World Theme</option>
-                </select>
-              </div>
-
-              <div class="flex justify-between items-center my-3">
-                <span>Advanced Controls</span>
-                <label class="toggle-switch">
-                  <input type="checkbox" id="advancedControlsToggle" />
-                  <span class="toggle-slider"></span>
-                </label>
-              </div>
-
-              <div class="flex justify-between items-center my-3">
-                <span>Debug Info</span>
-                <label class="toggle-switch">
-                  <input type="checkbox" id="showDebugToggle" />
-                  <span class="toggle-slider"></span>
-                </label>
-              </div>
-
-              <div class="my-3">
-                <div class="flex justify-between">
-                  <span>Animation Speed</span>
-                  <span id="animSpeedValue">100%</span>
-                </div>
-                <input
-                  type="range"
-                  id="animSpeedSlider"
-                  class="range-slider"
-                  min="50"
-                  max="150"
-                  value="100"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-6 text-center">
-            <button id="saveSettingsButton" class="btn-glow orbitron">
-              SAVE SETTINGS
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Credits Screen -->
-      <div id="creditsScreen" class="screen">
-        <button class="back-button" id="creditsBackButton">
-          <i class="fas fa-arrow-left"></i> Back
-        </button>
-
-        <div class="menu-panel">
-          <h2 class="panel-header orbitron">CREDITS</h2>
-
-          <div class="text-center mb-6">
-            <h3 class="text-xl mb-2" style="color: var(--neon-green)">
-              COCKROACH RUN
-            </h3>
-            <p>Version 1.0 Beta</p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 class="text-lg mb-2" style="color: var(--neon-green)">
-                Development
-              </h3>
-              <p>Lead Developer: Roachhouse Studios</p>
-              <p>Game Design: Roachhouse Studios</p>
-              <p>3D Modeling: Roachhouse Studios</p>
-              <p>UI/UX Design: Roachhouse Studios</p>
-            </div>
-
-            <div>
-              <h3 class="text-lg mb-2" style="color: var(--neon-green)">
-                Technologies
-              </h3>
-              <p>Three.js - 3D Graphics</p>
-              <p>WebGL - Rendering</p>
-              <p>Tailwind CSS - UI Styling</p>
-              <p>Bitcoin Ordinals - Blockchain Integration</p>
-            </div>
-          </div>
-
-          <div class="mt-8 text-center text-sm opacity-70">
-            <p>© 2025 Cockroach Run. All rights reserved.</p>
-            <p class="mt-2">Powered by Roachhouse Studios</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Game UI -->
-      <div id="gameUI" class="game-ui">
-        <div class="hud-top">
-          <div>
-            <div class="health-bar-container">
-              <div id="healthBar" class="health-bar" style="width: 100%"></div>
-            </div>
-            <div class="mt-2 text-sm">
-              Health: <span id="healthValue">100</span>/100
-            </div>
-          </div>
-
-          <div class="game-stats">
-            <div>Score: <span id="scoreValue">0</span></div>
-            <div>Eggs: <span id="eggsValue">0</span></div>
-          </div>
-        </div>
-
-        <div class="hud-bottom">
-          <!-- Mobile controls appear here on small screens -->
-        </div>
-      </div>
-
-      <!-- Mobile Controls -->
-      <div class="mobile-controls">
-        <div id="joystick" class="joystick-base">
-          <div class="joystick-thumb"></div>
-        </div>
-      </div>
-
-      <div class="action-buttons">
-        <div id="jumpButton" class="action-button">
-          <i class="fas fa-arrow-up"></i>
-        </div>
-        <div id="actionButton" class="action-button">
-          <i class="fas fa-hand-pointer"></i>
-        </div>
-      </div>
-
-      <!-- Pause Menu -->
-      <div id="pauseMenu" class="pause-menu">
-        <div class="menu-panel" style="max-width: 400px">
-          <h2 class="panel-header orbitron">PAUSED</h2>
-
-          <div class="flex flex-col items-center justify-center">
-            <button id="resumeButton" class="btn-glow orbitron mb-4">
-              RESUME
-            </button>
-            <button id="restartButton" class="btn-glow orbitron mb-4">
-              RESTART
-            </button>
-            <button id="quitButton" class="btn-glow orbitron">
-              QUIT TO MENU
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Game Over Screen -->
-      <div id="gameOverScreen" class="game-over-screen">
-        <h2 class="game-over-title orbitron">GAME OVER</h2>
-        <div class="score-container">Score: <span id="finalScore">0</span></div>
-        <div class="flex">
-          <button id="tryAgainButton" class="btn-glow orbitron mr-4">
-            TRY AGAIN
-          </button>
-          <button id="mainMenuButton" class="btn-glow orbitron">
-            MAIN MENU
-          </button>
-        </div>
-      </div>
-
-      <!-- Wallet Selection Modal -->
-      <div id="walletSelectionModal" class="wallet-modal">
-        <div class="wallet-modal-content">
-          <button id="closeWalletModal" class="wallet-close">
-            <i class="fas fa-times"></i>
-          </button>
-          <h2 class="panel-header orbitron">SELECT WALLET</h2>
-          <p class="mb-4">Connect your wallet to access special features</p>
-
-          <div class="wallet-option" id="xverseWalletOption">
-            <img src="assets/images/ui/xverse.png" alt="Xverse" />
-            <div>
-              <h3 class="text-left">Xverse Wallet</h3>
-              <p class="text-left text-sm opacity-70">
-                Connect to your Xverse Bitcoin wallet
-              </p>
-            </div>
-
-            <!-- Additional notification container from new template -->
-            <div id="notification-container"></div>
-          </div>
-
-          <div class="wallet-option" id="magicEdenWalletOption">
-            <img src="assets/images/ui/magiceden.png" alt="Magic Eden" />
-            <div>
-              <h3 class="text-left">Magic Eden</h3>
-              <p class="text-left text-sm opacity-70">
-                Connect to your Magic Eden wallet
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Notification -->
-      <div id="notification" class="notification"></div>
-
-      <!-- UI Diagnostics script -->
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          console.log("UI diagnostics running...");
-
-          // Check all screen elements
+    <!-- Debug Scripts -->
+    <script>
+      // Debug utility to check screens after page load
+      window.addEventListener("DOMContentLoaded", function () {
+        console.log("Page loaded - checking screens:");
+        setTimeout(function () {
           const screens = document.querySelectorAll(".screen");
-          console.log(`Found ${screens.length} screen elements:`);
-          screens.forEach((screen) => {
+          console.log(`Found ${screens.length} screens:`);
+          screens.forEach((screen, i) => {
             console.log(
-              `Screen ID: ${screen.id}, Classes: ${screen.className}`
+              `Screen ${i}: ID="${screen.id}", Classes="${
+                screen.className
+              }", Display=${getComputedStyle(screen).display}`
             );
           });
-
-          // Debug function to force show a screen
-          window.forceShowScreen = function (screenId) {
-            const screen = document.getElementById(screenId);
-            if (screen) {
-              document.querySelectorAll(".screen").forEach((s) => {
-                s.style.display = "none";
-                s.classList.remove("active");
-              });
-              screen.style.display = "flex";
-              screen.classList.add("active");
-              console.log(`Forced screen ${screenId} to be visible`);
-            } else {
-              console.error(`Screen ${screenId} not found`);
-            }
-          };
-
-          // Expose in global namespace for console access
-          window.debugUI = {
-            showScreen: window.forceShowScreen,
-            listScreens: function () {
-              document.querySelectorAll(".screen").forEach((s) => {
-                console.log(`${s.id}: ${getComputedStyle(s).display}`);
-              });
-            },
-          };
-        });
-      </script>
-    </div>
-
-    <!-- Audio Elements -->
-    <audio id="menu-music" loop>
-      <source src="assets/sounds/music/Menu_loop.mp3" type="audio/mpeg" />
-    </audio>
-
-    <!-- Diagnostic script -->
-
-    <!-- JavaScript imports -->
-    <script type="module" src="js/config.js"></script>
-    <script type="module" src="js/main.js"></script>
+        }, 1000);
+      });
+    </script>
   </body>
 </html>

@@ -117,7 +117,6 @@ function showScreen(screenId) {
   document.querySelectorAll(".screen").forEach((screen) => {
     screen.classList.remove("active");
     screen.style.display = "none"; // Explicitly set display none
-    console.log(`[UI] Hidden screen: ${screen.id}`);
   });
 
   // Show requested screen using both class and direct style
