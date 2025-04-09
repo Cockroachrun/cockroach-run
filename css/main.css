@@ -96,6 +96,7 @@ body {
 /* Screen management */
 .screen {
   position: fixed;
+  position: relative; /* Add this line */
   top: 0;
   left: 0;
   width: 100%;
