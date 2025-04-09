@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cockroach Run</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Exo+2:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.min.js"></script>
+    
+    <!-- CSS -->
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/components/loading.css" rel="stylesheet">
+    <link href="css/components/menus.css" rel="stylesheet">
+    <link href="css/components/buttons.css" rel="stylesheet">
+    <link href="css/components/characters.css" rel="stylesheet">
+    <link href="css/components/game-ui.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Container -->
+    <div id="game-container">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="screen active">
+            <!-- Content will be injected by loading.js -->
+        </div>
+        
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen">
+            <!-- Content will be injected by menu.js -->
+        </div>
+        
+        <!-- Game Mode Screen -->
+        <div id="game-mode-screen" class="screen">
+            <!-- Content will be injected by menu.js -->
+        </div>
+        
+        <!-- Character Selection Screen -->
+        <div id="character-screen" class="screen">
+            <!-- Content will be injected by characters.js -->
+        </div>
+        
+        <!-- Settings Screen -->
+        <div id="settings-screen" class="screen">
+            <!-- Content will be injected by menu.js -->
+        </div>
+        
+        <!-- Credits Screen -->
+        <div id="credits-screen" class="screen">
+            <!-- Content will be injected by menu.js -->
+        </div>
+        
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <canvas id="game-canvas"></canvas>
+            <div id="game-ui"></div>
+        </div>
+        
+        <!-- Wallet Modal -->
+        <div id="wallet-modal" class="modal">
+            <!-- Content will be injected by wallet.js -->
+        </div>
+        
+        <!-- Notifications -->
+        <div id="notification-container"></div>
+        
+        <!-- Debug Panel (hidden by default) -->
+        <div id="debug-panel" style="display: none;"></div>
+    </div>
+    
+    <!-- Audio Elements -->
+    <audio id="menu-music" loop>
+        <source src="assets/sounds/music/Menu_loop.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- JavaScript Modules -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
