@@ -61,6 +61,15 @@
         An error occurred. Retrying with fallback options...
       </div>
       <button id="skipLoadingButton" class="skip-button">Skip Loading</button>
+
+      <!-- Merged new UI elements -->
+      <div id="loading-quote" class="loading-quote">
+        "Roaches scurry in the shadows..."
+      </div>
+      <div id="loading-error" class="loading-error">
+        An error occurred. Retrying with fallback options...
+      </div>
+      <button id="skip-loading-button" class="button">Skip Loading</button>
     </div>
 
     <!-- Start Screen Placeholder -->
@@ -118,7 +127,7 @@
     </div>
 
     <!-- UI Container -->
-    <div class="ui-container">
+    <div id="ui-container" class="ui-container">
       <!-- Menu Background - Dynamic -->
       <div class="menu-bg"></div>
 
@@ -589,6 +598,9 @@
                 Connect to your Xverse Bitcoin wallet
               </p>
             </div>
+
+            <!-- Additional notification container from new template -->
+            <div id="notification-container"></div>
           </div>
 
           <div class="wallet-option" id="magicEdenWalletOption">
