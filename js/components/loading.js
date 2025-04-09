@@ -29,6 +29,21 @@ export function initLoading(gameState, showScreenCallback) {
   const loadingStatus = document.getElementById("loading-status");
   const skipButton = document.getElementById("skip-loading-button");
 
+  console.log("--- Loading Screen Element IDs Check ---");
+  [
+    "loading-bar",
+    "loadingBar",
+    "loading-status",
+    "loadingStatus",
+    "skip-loading-button",
+    "skipLoadingButton",
+  ].forEach((id) => {
+    const el = document.getElementById(id);
+    console.log(`Element with ID "${id}":`, el);
+  });
+  console.log("Loading screen innerHTML:", loadingScreen.innerHTML);
+  console.log("---------------------------------------");
+
   // Show skip button after delay
   setTimeout(() => {
     skipButton.classList.add("visible");

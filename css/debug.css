@@ -1,0 +1,19 @@
+/* Debug styles for UI visibility */
+.screen {
+  border: 2px dashed red;
+  z-index: 100 !important;
+}
+
+.screen.active {
+  border: 2px solid green;
+  display: flex !important;
+}
+
+canvas {
+  z-index: 1 !important;
+}
+
+/* Force show loading screen for debugging */
+#loading-screen {
+  z-index: 9999 !important;
+}

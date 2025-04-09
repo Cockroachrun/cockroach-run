@@ -34,43 +34,11 @@
     <link rel="stylesheet" href="css/components/menus.css" />
     <link rel="stylesheet" href="css/components/characters.css" />
     <link rel="stylesheet" href="css/components/game-ui.css" />
+    <link rel="stylesheet" href="css/debug.css" />
   </head>
   <body>
     <!-- Loading Screen with Kitchen Background-->
-    <div id="loading-screen" class="loading-screen">
-      <!-- Game logo on loading screen -->
-      <img
-        src="assets/images/ui/logo_title.png"
-        alt="Cockroach Run"
-        class="loading-logo-image"
-      />
-
-      <div class="loading-logo orbitron">COCKROACH RUN</div>
-      <div class="loading-bar-container">
-        <div id="loadingBar" class="loading-bar"></div>
-      </div>
-      <div id="loadingStatus" class="loading-status">Loading assets...</div>
-      <div id="transition-text" class="transition-text">
-        "Roaches scurry in the shadows..."
-      </div>
-      <div class="promo-text">
-        <span class="highlight">$Roach</span> to launch soon on
-        <span class="highlight">Odin.fun</span>
-      </div>
-      <div id="errorMessage" class="error-message">
-        An error occurred. Retrying with fallback options...
-      </div>
-      <button id="skipLoadingButton" class="skip-button">Skip Loading</button>
-
-      <!-- Merged new UI elements -->
-      <div id="loading-quote" class="loading-quote">
-        "Roaches scurry in the shadows..."
-      </div>
-      <div id="loading-error" class="loading-error">
-        An error occurred. Retrying with fallback options...
-      </div>
-      <button id="skip-loading-button" class="button">Skip Loading</button>
-    </div>
+    <div id="loading-screen" class="loading-screen"></div>
 
     <!-- Start Screen Placeholder -->
     <div id="start-screen" style="display: none">
@@ -618,44 +586,45 @@
       <!-- Notification -->
       <div id="notification" class="notification"></div>
 
+      <!-- UI Diagnostics script -->
       <script>
-        // Force UI visibility after everything loads
-        window.addEventListener("load", function () {
-          console.log("FORCE VISIBILITY CHECK");
+        document.addEventListener("DOMContentLoaded", function () {
+          console.log("UI diagnostics running...");
 
-          // Log all screens
+          // Check all screen elements
           const screens = document.querySelectorAll(".screen");
-          console.log(
-            `Found ${screens.length} screens:`,
-            Array.from(screens).map((s) => s.id)
-          );
+          console.log(`Found ${screens.length} screen elements:`);
+          screens.forEach((screen) => {
+            console.log(
+              `Screen ID: ${screen.id}, Classes: ${screen.className}`
+            );
+          });
 
-          // Check if start-screen exists
-          const startScreen = document.getElementById("start-screen");
-          console.log("Start screen exists:", !!startScreen);
+          // Debug function to force show a screen
+          window.forceShowScreen = function (screenId) {
+            const screen = document.getElementById(screenId);
+            if (screen) {
+              document.querySelectorAll(".screen").forEach((s) => {
+                s.style.display = "none";
+                s.classList.remove("active");
+              });
+              screen.style.display = "flex";
+              screen.classList.add("active");
+              console.log(`Forced screen ${screenId} to be visible`);
+            } else {
+              console.error(`Screen ${screenId} not found`);
+            }
+          };
 
-          if (startScreen) {
-            // Force display start screen
-            startScreen.style.display = "flex";
-            startScreen.style.visibility = "visible";
-            startScreen.style.opacity = "1";
-            console.log("Forced start screen visible");
-
-            // Add border for visibility
-            startScreen.style.border = "5px solid lime";
-          } else {
-            console.error("Start screen element not found!");
-          }
-
-          // Force display loading screen as fallback
-          const loadingScreen = document.getElementById("loading-screen");
-          if (loadingScreen) {
-            loadingScreen.style.display = "flex";
-            loadingScreen.style.visibility = "visible";
-            loadingScreen.style.opacity = "1";
-            loadingScreen.style.border = "5px solid yellow";
-            console.log("Forced loading screen visible as fallback");
-          }
+          // Expose in global namespace for console access
+          window.debugUI = {
+            showScreen: window.forceShowScreen,
+            listScreens: function () {
+              document.querySelectorAll(".screen").forEach((s) => {
+                console.log(`${s.id}: ${getComputedStyle(s).display}`);
+              });
+            },
+          };
         });
       </script>
     </div>
@@ -666,38 +635,6 @@
     </audio>
 
     <!-- Diagnostic script -->
-    <script>
-      // Debug UI on load
-      document.addEventListener("DOMContentLoaded", () => {
-        console.log("Running UI diagnostics...");
-
-        // Check all screens
-        const screens = document.querySelectorAll(".screen");
-        console.log(`Found ${screens.length} screens:`);
-        screens.forEach((screen) => {
-          console.log(`ID: ${screen.id}, Classes: ${screen.className}`);
-        });
-
-        // Check for canvas elements
-        const canvases = document.querySelectorAll("canvas");
-        console.log(`Found ${canvases.length} canvas elements`);
-        canvases.forEach((canvas, i) => {
-          console.log(`Canvas ${i}: Style: ${canvas.style.cssText}`);
-        });
-
-        // Force show loading screen after 1 second
-        setTimeout(() => {
-          const loadingScreen = document.getElementById("loading-screen");
-          if (loadingScreen) {
-            loadingScreen.style.display = "flex";
-            loadingScreen.classList.add("active");
-            console.log("Forced loading screen visibility");
-          } else {
-            console.error("Loading screen not found!");
-          }
-        }, 1000);
-      });
-    </script>
 
     <!-- JavaScript imports -->
     <script type="module" src="js/config.js"></script>

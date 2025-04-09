@@ -110,6 +110,16 @@ function initGame() {
 
 // Screen management
 function showScreen(screenId) {
+  console.log("--- showScreen() called ---");
+  console.log("All .screen elements:");
+  document.querySelectorAll(".screen").forEach((s) => {
+    console.log(
+      `ID: ${s.id}, display: ${getComputedStyle(s).display}, classes: ${
+        s.className
+      }`
+    );
+  });
+  console.log("---------------------------");
   console.log(`[UI] Attempting to show screen: ${screenId}`);
 
   // Debug: List all screens
