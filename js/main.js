@@ -150,58 +150,6 @@ function showScreen(screenId) {
   }
 }
 
-// Add debugging utility for UI testing
-window.debugUI = {
-  listScreens: function () {
-    const screens = document.querySelectorAll(".screen");
-    console.log(`Found ${screens.length} screens:`);
-    screens.forEach((screen) => {
-      console.log(
-        `ID: ${screen.id}, Display: ${
-          getComputedStyle(screen).display
-        }, Classes: ${screen.className}`
-      );
-    });
-  },
-
-  showScreen: function (screenId) {
-    showScreen(screenId);
-    console.log(`Manually triggered showing screen: ${screenId}`);
-  },
-
-  forceShowScreen: function (screenId) {
-    const screen = document.getElementById(screenId);
-    if (screen) {
-      // First hide all screens
-      document.querySelectorAll(".screen").forEach((s) => {
-        s.style.display = "none";
-        s.classList.remove("active");
-      });
-
-      // Force show the requested screen
-      screen.style.display = "flex";
-      screen.classList.add("active");
-      console.log(
-        `Forced screen ${screenId} to be visible with explicit styling`
-      );
-    } else {
-      console.error(`Screen ${screenId} not found`);
-    }
-  },
-
-  checkCanvasZIndex: function () {
-    const canvases = document.querySelectorAll("canvas");
-    console.log(`Found ${canvases.length} canvas elements:`);
-    canvases.forEach((canvas, i) => {
-      console.log(
-        `Canvas ${i}: z-index: ${getComputedStyle(canvas).zIndex}, position: ${
-          getComputedStyle(canvas).position
-        }`
-      );
-    });
-  },
-};
-
 // Error handling
 function handleError(event) {
   debugLog(`Error: ${event.error.message}`, "error");
@@ -231,7 +179,6 @@ window.debugUI = {
   },
 
   showScreen: function (screenId) {
-    // Use the enhanced showScreen function directly
     showScreen(screenId);
     console.log(`Manually triggered showing screen: ${screenId}`);
   },
@@ -253,6 +200,11 @@ window.debugUI = {
       );
     } else {
       console.error(`Screen ${screenId} not found`);
+      // List all available screens
+      console.log("Available screens:");
+      document.querySelectorAll(".screen").forEach((s, i) => {
+        console.log(`${i}: ID="${s.id || "NO ID"}"`);
+      });
     }
   },
 

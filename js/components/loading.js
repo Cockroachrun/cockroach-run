@@ -4,88 +4,72 @@ import { debugLog } from "../utils/utils.js";
 export function initLoading(gameState, showScreenCallback) {
   debugLog("Initializing loading screen");
 
-  // Make sure we're showing the loading screen first
+  // Show loading screen immediately
   showScreenCallback("loading-screen");
 
-  // Find or create loading elements
+  // Set up loading screen content
   const loadingScreen = document.getElementById("loading-screen");
   if (!loadingScreen) {
     console.error("Loading screen element not found!");
     return;
   }
 
-  // If loading screen doesn't have a loading bar, create one
-  let loadingBar = document.getElementById("loading-bar");
-  if (!loadingBar) {
-    // Create loading bar container
-    const loadingBarContainer = document.createElement("div");
-    loadingBarContainer.className = "loading-bar-container";
-    loadingScreen.appendChild(loadingBarContainer);
+  // Clear and rebuild loading screen content
+  loadingScreen.innerHTML = `
+    <div class="loading-container">
+      <img src="assets/images/logo_title.png" alt="Cockroach Run" class="loading-logo">
+      <div class="loading-bar-container">
+        <div id="loading-bar" class="loading-bar"></div>
+      </div>
+      <div id="loading-status" class="loading-status">Loading assets...</div>
+      <div class="loading-flavor">"Roaches scurry in the shadows..."</div>
+      <div class="loading-info">$Roach to launch soon on Odin.fun</div>
+      <button id="skip-loading-button" class="button">Skip Loading</button>
+    </div>
+  `;
 
-    // Create loading bar
-    loadingBar = document.createElement("div");
-    loadingBar.id = "loading-bar";
-    loadingBar.className = "loading-bar";
-    loadingBarContainer.appendChild(loadingBar);
+  // Get references to elements
+  const loadingBar = document.getElementById("loading-bar");
+  const loadingStatus = document.getElementById("loading-status");
+  const skipButton = document.getElementById("skip-loading-button");
+
+  if (!loadingBar || !loadingStatus || !skipButton) {
+    console.error("Loading screen elements are missing!");
+    return;
   }
-
-  // If loading screen doesn't have a status text, create one
-  let loadingStatus = document.getElementById("loading-status");
-  if (!loadingStatus) {
-    loadingStatus = document.createElement("div");
-    loadingStatus.id = "loading-status";
-    loadingStatus.className = "loading-status";
-    loadingStatus.textContent = "Loading assets...";
-    loadingScreen.appendChild(loadingStatus);
-  }
-
-  // If loading screen doesn't have a skip button, create one
-  let skipButton = document.getElementById("skip-loading-button");
-  if (!skipButton) {
-    skipButton = document.createElement("button");
-    skipButton.id = "skip-loading-button";
-    skipButton.textContent = "Skip Loading";
-    loadingScreen.appendChild(skipButton);
-  }
-
-  // Ensure the loading screen is visible
-  loadingScreen.style.display = "flex";
-  loadingScreen.classList.add("active");
-
-  // Show skip button after delay
-  setTimeout(() => {
-    skipButton.classList.add("visible");
-  }, 1000);
 
   // Skip button functionality
   skipButton.addEventListener("click", () => {
+    console.log("Skip button clicked");
     completeLoading();
   });
 
-  // Simulate loading process
+  // Simulate loading
   let progress = 0;
   const loadingInterval = setInterval(() => {
     progress += 5;
     if (progress > 100) progress = 100;
 
-    loadingBar.style.width = `${progress}%`;
+    if (loadingBar) loadingBar.style.width = `${progress}%`;
 
     // Update status text based on progress
-    if (progress < 30) {
-      loadingStatus.textContent = "Loading game assets...";
-    } else if (progress < 60) {
-      loadingStatus.textContent = "Initializing game environment...";
-    } else if (progress < 90) {
-      loadingStatus.textContent = "Preparing cockroach models...";
-    } else {
-      loadingStatus.textContent = "Almost ready...";
+    if (loadingStatus) {
+      if (progress < 30) {
+        loadingStatus.textContent = "Loading game assets...";
+      } else if (progress < 60) {
+        loadingStatus.textContent = "Initializing game environment...";
+      } else if (progress < 90) {
+        loadingStatus.textContent = "Preparing cockroach models...";
+      } else {
+        loadingStatus.textContent = "Almost ready...";
+      }
     }
 
     if (progress >= 100) {
       clearInterval(loadingInterval);
       completeLoading();
     }
-  }, 200);
+  }, 100);
 
   // Function to complete loading
   function completeLoading() {
@@ -93,11 +77,14 @@ export function initLoading(gameState, showScreenCallback) {
     if (loadingBar) loadingBar.style.width = "100%";
     if (loadingStatus) loadingStatus.textContent = "Loading complete!";
 
+    console.log("Loading complete, transitioning to start screen...");
+
     // Add fade-out animation
     loadingScreen.classList.add("fade-out");
 
     // Move to start screen after animation
     setTimeout(() => {
+      console.log("Showing start screen...");
       showScreenCallback("start-screen");
 
       // Start menu music
