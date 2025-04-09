@@ -107,27 +107,49 @@ function initGame() {
 // Screen management
 function showScreen(screenId) {
   debugLog(`Showing screen: ${screenId}`);
-  console.log(`Attempting to show screen: ${screenId}`);
-  
-  // Hide all screens
-  document.querySelectorAll('.screen').forEach(screen => {
-    screen.style.display = 'none';
-    console.log(`Hidden screen: ${screen.id}`);
+  console.log(`[UI] Attempting to show screen: ${screenId}`);
+
+  // Debug: List all screens for verification
+  const allScreens = document.querySelectorAll(".screen");
+  console.log(`[UI] Found ${allScreens.length} screen elements`);
+  allScreens.forEach((s) =>
+    console.log(`[UI] Screen: ${s.id}, Classes: ${s.className}`)
+  );
+
+  // Hide all screens - use both class and explicit style
+  allScreens.forEach((screen) => {
+    screen.classList.remove("active");
+    screen.style.display = "none"; // Explicitly set display none
+    console.log(`[UI] Hidden screen: ${screen.id}`);
   });
-  
-  // Show requested screen
+
+  // Show requested screen - use both class and explicit style
   const screen = document.getElementById(screenId);
   if (screen) {
-    screen.style.display = 'flex';
-    console.log(`Made visible: ${screenId}`);
+    screen.classList.add("active");
+    screen.style.display = "flex"; // Explicitly set display flex
+    console.log(`[UI] Made visible: ${screenId}, Element:`, screen);
     gameState.currentScreen = screenId;
-  } else {
-    debugLog(`Screen not found: ${screenId}`, 'error');
-    console.error(`ERROR: Screen element with ID "${screenId}" not found in the DOM`);
+
+    // Special handling for specific screens
+    switch (screenId) {
+      case "game-mode-screen":
+        console.log("[UI] Applying game mode screen specifics");
+        break;
+      case "character-screen":
+        console.log("[UI] Applying character screen specifics");
         break;
     }
   } else {
     debugLog(`Screen not found: ${screenId}`, "error");
+    console.error(
+      `[ERROR] Screen element with ID "${screenId}" not found in the DOM`
+    );
+
+    // List all elements with .screen class as a fallback
+    document.querySelectorAll(".screen").forEach((s) => {
+      console.log(`[UI] Available screen: ${s.id || "unknown-id"}`);
+    });
   }
 }
 
